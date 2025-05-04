@@ -1,5 +1,3 @@
-import sys
-
 MENU = {
     "espresso": {
         "ingredients": {
@@ -33,18 +31,12 @@ resources = {
     "money": 0,
 }
 
-
-
 def check_availability(user_order):
-    """Checks the availability of each item in the recipe"""
     for key, value in MENU[user_order]["ingredients"].items():
-        if value <= resources[key]:
-            resources[key] -= value
-            print(resources[key])
-        else:
+        if value > resources[key]:
             print(f"Sorry, there is not enough {key}.")
-            sys.exit()
-
+            return False
+    return True
 
 repeat = True
 while repeat:
@@ -59,22 +51,24 @@ while repeat:
                 print(f"{key.capitalize()}: {value}g")
             elif key == "money":
                 print(f"{key.capitalize()}: ${value:.2f}")
+    elif order in MENU:
+        if check_availability(order):
+            price = MENU[order]["cost"]
+            print(f"That would be ${price}")
+            print("Please insert the coins.")
+            quarters = int(input("how many quarters?: "))
+            dimes = int(input("how many dimes?: "))
+            nickels = int(input("how many nickels?: "))
+            pennies = int(input("how many pennies?: "))
+            given_amount = 0.25 * quarters + 0.1 * dimes + 0.05 * nickels + 0.01 * pennies
+            if price <= given_amount:
+                for key, value in MENU[order]["ingredients"].items():
+                    resources[key] -= value
+                given_amount -= price
+                resources["money"] += price
+                print(f"Here is ${given_amount:.2f} in change.")
+                print(f"Here is your {order}: ☕️ Enjoy!")
+            else:
+                print("Sorry, you provided not enough money. Here is your refund: 💵")
     else:
-        check_availability(order)
-
-        price = MENU[order]["cost"]
-        print(f"That would be ${price}")
-        print("Please insert the coins.")
-        # given_amount = 0
-        quarters = int(input("how many quarters?: "))
-        dimes = int(input("how many dimes?: "))
-        nickels = int(input("how many nickels?: "))
-        pennies = int(input("how many pennies?: "))
-        given_amount = 0.25 * quarters + 0.1 * dimes + 0.05 * nickels + 0.01 * pennies
-        if price <= given_amount:
-            given_amount -=  price
-            resources["money"] += price
-            print(f"Here is ${given_amount:.2f} in change.")
-            print(f"Here is your {order}: ☕️ Enjoy!")
-        else:
-            print("Sorry, you provided not enough money. Here is your refund: 💵")
+        print("Invalid option. Please choose espresso, latte, or cappuccino.")
