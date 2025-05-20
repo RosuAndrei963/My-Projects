@@ -1,0 +1,171 @@
+
+
+
+<!-- Last edited 23 nov. 2023 -->
+
+
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <Title>CNP information</Title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                background: #f9f9f9;
+            }
+    
+            h1 {
+                text-align: center;
+                margin-top: 30px;
+            }
+    
+            p {
+                text-align: center;
+                font-size: 1.1rem;
+                margin: 10px 0;
+            }
+    
+            .sticky {
+                position: sticky;
+                top: 0;
+                background-color: rgb(186, 231, 216);
+                padding: 20px;
+                text-align: center;
+            }
+    
+            button {
+                border: none;
+                background-color: rgb(244, 53, 53);
+                color: white;
+                font-size: 1rem;
+                padding: 12px 25px;
+                cursor: pointer;
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+            }
+    
+            button:hover {
+                background-color: rgb(200, 30, 30);
+            }
+        </style>
+    </head>
+    <body>
+        <h1>-Your information based in your CNP-</h1>
+        <p id="currentdate"></p>
+        <div class="sticky">
+        <button type="button" onclick="Cnp()">Enter CNP</button>
+        <div id="result"></div>
+        </div>
+
+        <p id="name"></p>
+        <p id="cnp"></p><br>
+        <p id="gen"></p><br>
+        <p id="birthday"></p><br>
+        <p id="yearsOld"></p><br>
+
+
+
+        <script>
+            var Cnp, gender, cyear, cmonth, cday, cnp1, cnp2, cnp3, cnp4, cnp5;
+            
+            //date info
+            const d = new Date();
+            day = d.getDate();
+            month = d.getMonth() + 1;
+            var year = d.getFullYear();
+            document.getElementById("currentdate").innerHTML = d;
+            
+            function Cnp(){
+                const name= prompt("What's your name?","Dwayne Johnson")
+                var cnp=prompt("Enter your CNP:","5090423999999");
+                var cnp1=cnp;
+                var cnp2=cnp;
+                var cnp3=cnp;
+                var cnp4=cnp;
+                var cnp5=cnp;
+                
+                let gender=cnp1/1000000000000;
+                
+                if (gender == 1 || gender == 4){
+                    gender = "Feminine";
+                } else {
+                    gender = "Masculine";
+                } 
+
+
+                var cyear=Math.trunc((cnp2/10000000000))%100;
+
+                var comp = Math.trunc((cnp5/100000000000)%10);
+                if (comp==0 || comp==1 || comp==2){
+                    cyear+=2000;
+                } else {
+                    cyear+=1900;
+                }
+
+
+                var cmonth=Math.trunc((cnp3/100000000)%100);
+                switch (cmonth){
+                    case 1:
+                        cmonth="January";
+                        break;
+                    case 2:
+                        cmonth="February";
+                        break; 
+                    case 3:
+                        cmonth="March";
+                        break; 
+                    case 4:
+                        cmonth="April";
+                        break;
+                    case 5:
+                        cmonth="May";
+                        break;
+                    case 6:
+                        cmonth="June";
+                        break;
+                    case 7:
+                        cmonth="July";
+                        break;
+                    case 8:
+                        cmonth="August";
+                        break;
+                    case 9:
+                        cmonth="September";
+                        break;
+                    case 10:
+                        cmonth="October";
+                        break;
+                    case 11:
+                        cmonth="November";
+                        break;
+                    case 12:
+                        cmonth="December";
+                        break;    
+                }
+
+
+                var cday=Math.trunc((cnp4/1000000)%100);
+
+                //subtraction
+                var difyear=year-cyear;
+
+
+
+                document.getElementById("name").innerHTML = "Hello, "+ name + "!";
+                document.getElementById("cnp").innerHTML = "Your CNP is: " + cnp;
+                document.getElementById("gen").innerHTML = "Gender: " + gender;
+                document.getElementById("birthday").innerHTML = "Birthday: " + cday + " " + cmonth + " " + cyear;
+                document.getElementById("yearsOld").innerHTML = "You are " + difyear +" years old."
+
+            }
+
+        
+        
+        </script>
+    </body>
+</html>
