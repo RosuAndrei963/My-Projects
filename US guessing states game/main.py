@@ -19,10 +19,7 @@ while len(user_guesses) < 50:
     input_answer = screen.textinput(title=title, prompt="Type Another State").title().strip()
 
     if input_answer == "Exit":
-        missing_states = []
-        for state in df.state:
-            if state not in user_guesses:
-                missing_states.append(state)
+        missing_states = [state for state in df.state if state not in user_guess]
         new_data = pandas.DataFrame(missing_states)
         new_data.to_csv("states_to_learn.csv")
         break
