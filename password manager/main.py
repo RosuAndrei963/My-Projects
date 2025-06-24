@@ -2,6 +2,7 @@ import tkinter
 from tkinter import messagebox
 import random
 import pyperclip
+import json
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
@@ -33,16 +34,52 @@ def add_pass():
     website = website_entry.get()
     email = email_entry.get()
     password = pass_entry.get()
+    new_data = {
+        website: {
+            "email": email,
+            "password": password,
+        }
+    }
 
     if not website or not email or not password:
         messagebox.showerror(title="Alert", message="You forgot to add something")
     else:
-        valid = messagebox.askokcancel(title="Website", message=f"Add {email} and {password}?")
+        valid = messagebox.askokcancel(title="Website", message=f"Add Email: {email} \n password: {password} ?")
         if valid:
-            with open("data.txt", "a") as d:
-                d.write(f"{website} | {email} | {password}\n")
+            try:
+                with open("data.json", "r") as data_file:
+                    data = json.load(data_file)
+            except FileNotFoundError:
+                with open("data.json", "w") as data_file:
+                    json.dump(new_data, data_file, indent=4)
+            else:
+                data.update(new_data)
+
+                with open("data.json", "w") as data_file:
+                    json.dump(data, data_file, indent=4)
+
+            finally:
                 website_entry.delete(0, tkinter.END)
                 pass_entry.delete(0, tkinter.END)
+
+# ------------------------ FINDING PASSWORD --------------------------- #
+
+def find_pass():
+    website = website_entry.get()
+    try:
+        with open("data.json", "r") as data_file:
+            data = json.load(data_file)
+    except FileNotFoundError:
+        messagebox.showerror(title="Error", message="No data file found.")
+    else:
+        if website in data:
+            email = data[website]["email"]
+            password = data[website]["password"]
+            messagebox.showinfo(title=website, message=f"Email: {email}\nPassword: {password}\n\n Password copied to clipboard.")
+            pyperclip.copy(password)
+        else:
+            messagebox.showerror(title="Not Found", message=f"No details for '{website}' found.")
+
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = tkinter.Tk()
@@ -57,14 +94,17 @@ canvas.grid(column=1, row=0)
 website_label = tkinter.Label(text="Website: ")
 website_label.grid(column=0, row=1)
 
-website_entry = tkinter.Entry(width=40)
-website_entry.grid(column=1, row=1, columnspan=2)
+website_entry = tkinter.Entry(width=22)
+website_entry.grid(column=1, row=1)
 website_entry.focus()
+
+search_button = tkinter.Button(text="Search", width=13, command=find_pass)
+search_button.grid(column=2, row=1)
 
 email_label = tkinter.Label(text="Email/Username: ")
 email_label.grid(column=0, row=2)
 
-email_entry = tkinter.Entry(width=40)
+email_entry = tkinter.Entry(width=39)
 email_entry.grid(column=1, row=2, columnspan=2)
 # email_entry.insert(0, "email")
 
