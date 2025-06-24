@@ -18,22 +18,18 @@ for (index, row) in student_data_frame.iterrows():
     #Access row.student or row.score
     pass
 
-# Keyword Method with iterrows()
-# {new_key:new_value for (index, row) in df.iterrows()}
-
-
-
-#TODO 1. Create a dictionary in this format:
-# {"A": "Alfa", "B": "Bravo"}
-
-#TODO 2. Create a list of the phonetic code words from a word that the user inputs.
 alphabet_df = pandas.read_csv("nato_phonetic_alphabet.csv")
 alphabet_dict = {row.letter:row.code for index, row in alphabet_df.iterrows()}
 print(alphabet_dict)
 
-input_word = input("Enter a word: ")
-# for letter in input_word:
-#     word = alphabet_dict[letter]
-#     word.append()
-output_list = [alphabet_dict[letter.upper()] for letter in input_word]
-print(output_list)
+def gen_phonetic():
+    input_word = input("Enter a word: ")
+    try:
+        output_list = [alphabet_dict[letter.upper()] for letter in input_word]
+    except KeyError:
+        print("Only letters accepted.")
+        gen_phonetic()
+    else:
+        print(output_list)
+
+gen_phonetic()
