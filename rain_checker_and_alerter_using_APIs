@@ -1,0 +1,48 @@
+import requests
+from twilio.rest import Client
+
+# -------------------------------#
+# 📌 Replace the placeholders below with your actual credentials
+# -------------------------------#
+api_key = "YOUR_OPENWEATHERMAP_API_KEY"
+account_sid = "YOUR_TWILIO_ACCOUNT_SID"
+auth_token = "YOUR_TWILIO_AUTH_TOKEN"
+from_number = "+YOUR_TWILIO_PHONE_NUMBER"
+to_number = "+YOUR_VERIFIED_PHONE_NUMBER"
+
+# -------------------------------#
+# 🌍 Weather API Setup
+# -------------------------------#
+OMW_endpoint = "https://api.openweathermap.org/data/2.5/forecast"
+
+weather_params = {
+    "lat": 44.426765,     # Replace with your desired latitude
+    "lon": 26.102537,     # Replace with your desired longitude
+    "appid": api_key,
+    "cnt": 4              # Number of 3-hour forecast intervals to check (4 x 3h = next 12 hours)
+}
+
+# -------------------------------#
+# 🌦️ Check Weather
+# -------------------------------#
+response = requests.get(OMW_endpoint, params=weather_params)
+response.raise_for_status()
+weather_data = response.json()
+
+rain = False
+for hour_data in weather_data["list"]:
+    condition_code = hour_data["weather"][0]["id"]
+    if int(condition_code) < 700:
+        rain = True
+
+# -------------------------------#
+# 📲 Send SMS Alert if Rain is Expected
+# -------------------------------#
+if rain:
+    client = Client(account_sid, auth_token)
+    message = client.messages.create(
+        body="☔ It's going to rain today. Don't forget your umbrella!",
+        from_=from_number,
+        to=to_number
+    )
+    print(message.status)
