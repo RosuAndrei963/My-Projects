@@ -4,6 +4,8 @@ I'm a self-taught developer from Romania who started coding at 13. This reposito
 
 I'm currently preparing for competitive programming (Codeforces) and expanding this portfolio with larger, more complex projects as I work toward a career in software development.
 
+Worth mentioning - these projects were not vibe-coded. I seldomly used AI while building these mini-projects.  
+
 ---
 
 ## Projects
@@ -67,7 +69,7 @@ I'm currently preparing for competitive programming (Codeforces) and expanding t
 
 | Project | Description |
 |---|---|
-| **CNP Info** *(Nov 2023 — built without AI assistance)* | Parses a Romanian National ID number (CNP) to extract gender, birthdate, century, and age using pure vanilla JS math logic. Built independently before using any AI tools. |
+| **CNP Info** *(Nov 2023 — built before AI assistance was usable for me)* | Parses a Romanian National ID number (CNP) to extract gender, birthdate, century, and age using pure vanilla JS math logic. Built independently before using any AI tools. |
 
 ---
 
