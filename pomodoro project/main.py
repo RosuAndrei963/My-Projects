@@ -1,6 +1,8 @@
 import tkinter
 import math
 from tkinter import PhotoImage
+from tkinter import ttk
+import pygame
 
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
@@ -18,6 +20,8 @@ timer = None
 # ---------------------------- TIMER RESET ------------------------------- #
 
 def reset_timer():
+    window.focus()
+    ringtone.stop()
     window.after_cancel(timer)
     start_button.config(state="normal")
     canvas.itemconfig(timer_text, text = "00:00")
@@ -29,6 +33,7 @@ def reset_timer():
 # ---------------------------- TIMER MECHANISM ------------------------------- # 
 
 def start_timer():
+    window.focus()
     global reps
     start_button.config(state="disabled")
     work_sec = WORK_MIN * 60
@@ -47,6 +52,11 @@ def start_timer():
         countdown(short_break_sec)
         happening.config(text="Short Break", fg = RED)
 
+# ---------------------------- RINGTONE INITIALISATION ------------------------------- #
+
+pygame.mixer.init()
+ringtone = pygame.mixer.Sound("ringtone.mp3")
+
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- #
 
 def countdown(count):
@@ -59,6 +69,7 @@ def countdown(count):
         global timer
         timer = window.after(1000, countdown, count - 1)
     else:
+        ringtone.play()
         start_timer()
         marks = ""
         work_sessions = math.floor(reps / 2)
@@ -68,7 +79,24 @@ def countdown(count):
 
 # ---------------------------- UI SETUP ------------------------------- #
 window = tkinter.Tk()
-window.title("Pomodoro")
+
+window.tk.call('tk', 'scaling', 2.0)
+style = ttk.Style()
+style.theme_use("default")  # important on Mac — bypasses native renderer
+style.configure("Custom.TButton",
+    background=GREEN,
+    foreground="white",
+    font=(FONT_NAME, 12, "bold"),
+    padding=10,
+    relief="flat",
+    borderwidth=0
+)
+style.map("Custom.TButton",
+    background=[("active", HEAVY_GREEN), ("disabled", "#cccccc")],
+    foreground=[("disabled", "#888888")]
+)
+
+window.title("Pomodoro Timer")
 window.config(padx=100, pady=50, bg=YELLOW)
 
 canvas = tkinter.Canvas(width=200, height=224, bg=YELLOW, highlightthickness=0)
@@ -83,10 +111,10 @@ text.grid(column=1, row=0)
 happening = tkinter.Label(text = "", font = (FONT_NAME, 40), fg = GREEN, bg = YELLOW)
 happening.grid(column=1, row=1)
 
-start_button = tkinter.Button(text="Start", highlightthickness=0, command = start_timer)
+start_button = ttk.Button(text="Start", style="Custom.TButton", command=start_timer)
 start_button.grid(column=0, row=3)
 
-button1 = tkinter.Button(text="Reset", highlightthickness=0, command = reset_timer)
+button1 = ttk.Button(text="Reset", style="Custom.TButton", command = reset_timer)
 button1.grid(column=2, row=3)
 
 check = tkinter.Label(bg = YELLOW, fg=GREEN)
