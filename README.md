@@ -101,7 +101,7 @@ Worth mentioning - these projects were not vibe-coded. I seldomly used AI while 
 | Introduction to Cybersecurity *(Cisco Networking Academy)* | ✅ Completed |
 | Python Course *(CompuScholar)* | ✅ Completed |
 | Digital Savvy *(CompuScholar)* | ✅ Completed |
-| C# Course *(CompuScholar)* | In progress (~80%) |
+| C# Course *(CompuScholar)* | ✅ Completed |
 
 ---
 
