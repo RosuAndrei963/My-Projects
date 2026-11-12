@@ -96,7 +96,7 @@ Worth mentioning - these projects were not vibe-coded. I seldomly used AI while 
 |---|---|
 | 100 Days of Code: Python Bootcamp *(Angela Yu, Udemy)* | In progress |
 | The Complete Web Development Bootcamp *(Angela Yu, Udemy)* | In progress |
-| Harvard's Introduction to Cybersecurity *(David Malan)* | In progress |
+| Harvard's Introduction to Cybersecurity *(David Malan)* | ✅ Completed |
 | Introduction to Cybersecurity *(Cisco Networking Academy)* | ✅ Completed |
 | CS50: Introduction to Computer Science *(Harvard / David Malan)* | ✅ Completed |
 | Python Course *(CompuScholar)* | ✅ Completed |
